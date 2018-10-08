@@ -18,22 +18,21 @@ public class GoibiboTest extends testutil {
 	@BeforeMethod
 	public void setup()
 	{
-		
-		System.setProperty("webdriver.chrome.driver", "⁨/Users/rakesh/eclipse-workspace/jumbo/Goibibo/src/main/java/chromedriver⁩");
+		System.setProperty("webdriver.chrome.driver", "/Users/rakesh/Downloads/chromedriver");
 		driver =new ChromeDriver();
-		driver.get("https://www.goibibo.com/");
-		driver.manage().deleteAllCookies();
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		
+		driver.get("https://www.goibibo.com/");
+		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().deleteAllCookies();
 		
 	}
 	@Test
 	public void loginpageTest()
 	{
 		driver.findElement(By.id("get_sign_in")).click();
-		testutil.CaptureScreenshot(driver, null);
-		driver.findElement(By.id("authMobile")).sendKeys("9853836233");
+		//testutil.CaptureScreenshot(driver, null);
+		driver.findElement(By.xpath("//input[@id='authMobile']")).sendKeys("9853836233");
 		driver.findElement(By.id("mobileSubmitBtn")).click();
 		
 		
@@ -42,6 +41,7 @@ public class GoibiboTest extends testutil {
     @AfterMethod 
     public void TearDown(ITestResult result)
     {
+    	//Failed Screenshots 
     	if(ITestResult.FAILURE ==result.getStatus())
     	{
     		testutil.CaptureScreenshot(driver, result.getName());
